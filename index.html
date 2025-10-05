@@ -21,9 +21,11 @@
     /* Hero */
     .hero{max-width:1100px;margin:0 auto;padding:18px 16px 8px;display:flex;flex-direction:column;align-items:center;gap:12px}
     .brand{width:100%;max-width:1100px;height:auto;border-radius:16px;box-shadow:0 18px 40px rgba(0,0,0,.45);border:1px solid var(--border);object-fit:cover}
-    .brand-title{margin:0;font-family:'Poppins',system-ui,Segoe UI,Roboto;font-weight:800;font-size:48px;line-height:1.1;text-align:center;background:linear-gradient(90deg,#60a5fa,#a78bfa,#f472b6);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .brand-title{margin:0;font-family:'Poppins',system-ui,Segoe UI,Roboto;font-weight:800;font-size:56px;line-height:1.05;text-align:center;letter-spacing:.3px;background:linear-gradient(90deg,#60a5fa,#a78bfa,#f472b6,#60a5fa);background-size:200% 200%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:popIn .8s ease-out both, gradientShift 6s ease-in-out infinite alternate}
+@media(min-width:768px){.brand-title{font-size:76px}}
+@media(min-width:1200px){.brand-title{font-size:88px}}
     @media(min-width:768px){.brand-title{font-size:60px}}
-    .brand-quote{color:var(--muted);font-size:16px;text-align:center;font-style:italic}
+    .brand-quote{color:var(--muted);font-size:18px;text-align:center;font-style:italic;opacity:0;animation:fadeUp 1s .25s ease-out both} @media(min-width:768px){.brand-quote{font-size:20px}}
 
     main{max-width:1100px;margin:12px auto 100px;padding:0 16px}
 
@@ -64,6 +66,10 @@
 
     /* Safety: hide any stray legacy stats blocks */
     .stats:not(#statsbar){display:none}
+  @keyframes popIn{0%{opacity:0;transform:translateY(10px) scale(.98)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes gradientShift{0%{background-position:0% 50%}100%{background-position:100% 50%}}
+@keyframes fadeUp{0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.brand-title,.brand-quote{animation:none}}
   </style>
   <script async src="https://www.instagram.com/embed.js"></script>
 </head>
@@ -280,4 +286,3 @@
   </script>
 </body>
 </html>
-
