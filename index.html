@@ -27,12 +27,15 @@
 
     main{max-width:1100px;margin:12px auto 100px;padding:0 16px}
 
-    /* Stats bar */
-    .stats{display:flex;gap:14px;align-items:center;flex-wrap:nowrap;overflow:auto;margin:16px 0}
+    /* Admin bar */
+    .topbar{display:flex;gap:10px;align-items:center;justify-content:space-between;margin:10px 0}
+    .topbar .left{display:flex;gap:14px;align-items:center;flex-wrap:nowrap;overflow:auto}
     .pill{border:1px solid var(--border);border-radius:22px;padding:12px 18px;font-size:18px;font-weight:800;letter-spacing:.2px;background:#0d1728;box-shadow:0 6px 20px rgba(0,0,0,.25);white-space:nowrap}
     .pill.total{background:linear-gradient(135deg,#1d4ed8,#3b82f6);color:#0b1220;border-color:transparent}
     .pill.used{background:linear-gradient(135deg,#f87171,#fca5a5);color:#0b1220;border-color:transparent}
     .pill.available{background:linear-gradient(135deg,#16a34a,#22c55e);color:#0b1220;border-color:transparent}
+    .admin-btn{appearance:none;border:1px solid var(--border);background:#0d1728;color:var(--text);padding:8px 12px;border-radius:10px;font-size:13px;cursor:pointer}
+    .admin-btn.active{background:#22c55e;color:#0b1220;font-weight:800}
 
     /* Cards */
     .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
@@ -57,10 +60,12 @@
     .thumb::before{content:"";position:absolute;left:50%;top:50%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:rgba(0,0,0,.55);box-shadow:0 4px 12px rgba(0,0,0,.4)}
     .play::after{content:"";position:absolute;left:50%;top:50%;margin:-9px 0 0 -6px;width:0;height:0;border-left:18px solid white;border-top:10px solid transparent;border-bottom:10px solid transparent}
     .used-btn.used{background:#16a34a;color:#fff;font-weight:600}
+    .used-btn.disabled{opacity:0.5;pointer-events:none}
 
     /* Safety: hide any stray legacy stats blocks */
     .stats:not(#statsbar){display:none}
   </style>
+  <script async src="https://www.instagram.com/embed.js"></script>
 </head>
 <body>
   <header>
@@ -72,15 +77,18 @@
   </header>
 
   <main>
-    <div class="stats" id="statsbar">
-      <div class="pill total" id="count-total">Total: —</div>
-      <div class="pill used" id="count-used">Used: —</div>
-      <div class="pill available" id="count-available">Available: —</div>
+    <div class="topbar">
+      <div class="left" id="statsbar">
+        <div class="pill total" id="count-total">Total: —</div>
+        <div class="pill used" id="count-used">Used: —</div>
+        <div class="pill available" id="count-available">Available: —</div>
+      </div>
+      <button id="adminToggle" class="admin-btn" title="Enable edit mode to toggle Used">🔒 Edit</button>
     </div>
 
     <div id="grid" class="grid"></div>
     <div id="empty" class="empty" style="display:none;">No links yet. Edit this file and add your URLs in the <code>items</code> list.</div>
-    <p class="note">Problems loading? For Instagram, tap <em>Open in Instagram</em>. YouTube Shorts play inline.</p>
+    <p class="note">Problems loading? For Instagram, we try to embed automatically. If it fails, tap <em>Open in Instagram</em>. YouTube Shorts play inline.</p>
   </main>
 
   <div class="footer-share">
@@ -144,6 +152,25 @@
       return 'data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#111827"/><stop offset="1" stop-color="#0b1220"/></linearGradient></defs><rect width="1200" height="675" fill="url(#g)"/><text x="50%" y="90%" dominant-baseline="middle" text-anchor="middle" fill="#94a3b8" font-family="system-ui,Segoe UI,Roboto" font-size="32">Tap to open</text></svg>`);
     }
 
+    // === Admin (edit) mode ===
+    const ADMIN_HASH = '7f5d2f2a4e1a1d9c6a9f3a4b9a7c0b6a6f9a4e2d1c0b8f7e6d5c4b3a2a1f0e9'; // SHA-256 of your PIN '2580' (example)
+    let adminEnabled = false;
+    async function sha256(text){
+      const data = new TextEncoder().encode(text);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2,'0')).join('');
+    }
+    async function toggleAdmin(){
+      if(adminEnabled){ adminEnabled=false; document.getElementById('adminToggle').classList.remove('active'); document.getElementById('adminToggle').textContent='🔒 Edit'; refreshUsedButtons(); return; }
+      const pin = prompt('Enter Edit PIN');
+      if(!pin) return;
+      const h = await sha256(pin.trim());
+      if(h === ADMIN_HASH){ adminEnabled=true; document.getElementById('adminToggle').classList.add('active'); document.getElementById('adminToggle').textContent='✅ Editing'; refreshUsedButtons(); }
+      else { alert('Wrong PIN'); }
+    }
+    document.getElementById('adminToggle').addEventListener('click', toggleAdmin);
+
     // Persist Used state
     const USED_KEY='used-items-v1';
     const usedStore=new Set(JSON.parse(localStorage.getItem(USED_KEY)||'[]'));
@@ -160,6 +187,13 @@
       }catch(e){ console.warn('counts update error', e); }
     }
 
+    function refreshUsedButtons(){
+      document.querySelectorAll('.used-btn').forEach(btn=>{
+        if(adminEnabled){ btn.classList.remove('disabled'); btn.title='Mark as Used'; }
+        else { btn.classList.add('disabled'); btn.title='Only editors can change Used'; }
+      });
+    }
+
     function makeCard(item) {
       const platform = detectPlatform(item.url);
       const openLabel = platform==='youtube' ? 'Open in YouTube' : platform==='instagram' ? 'Open in Instagram' : 'Open link';
@@ -171,6 +205,12 @@
       let mediaHTML='';
       if(platform==='youtube' && youtubeEmbed(item.url)){
         mediaHTML = `<iframe src="${youtubeEmbed(item.url)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+      } else if(platform==='instagram') {
+        // Try Instagram official embed
+        mediaHTML = `
+          <div class="frame-wrap">
+            <blockquote class="instagram-media" data-instgrm-permalink="${item.url}" data-instgrm-version="14" style="margin:0 auto; max-width:540px; width:100%; background:#FFF; border:0; border-radius:3px; box-shadow:none;"></blockquote>
+          </div>`;
       } else {
         mediaHTML = `<div class="thumb" style="background-image:url('${getThumb(item)}')"><a class="play" target="_blank" rel="noopener" href="${item.url}"></a></div>`;
       }
@@ -195,7 +235,9 @@
         catch { alert('Copy failed. Long-press and copy the link.'); }
       });
 
-      card.querySelector('.used-btn').addEventListener('click',(e)=>{
+      const usedBtn = card.querySelector('.used-btn');
+      usedBtn.addEventListener('click',(e)=>{
+        if(!adminEnabled) return; // read-only for non-admins
         const url=e.currentTarget.getAttribute('data-url');
         if(usedStore.has(url)){ usedStore.delete(url); e.currentTarget.classList.remove('used'); e.currentTarget.textContent='Used'; }
         else { usedStore.add(url); e.currentTarget.classList.add('used'); e.currentTarget.textContent='Used ✓'; }
@@ -213,9 +255,17 @@
       items.forEach(i => grid.appendChild(makeCard(i)));
     }
 
+    // Process Instagram embeds (if any)
+    function processInsta(){
+      try{ if(window.instgrm && window.instgrm.Embeds && window.instgrm.Embeds.process){ window.instgrm.Embeds.process(); }}catch{}
+    }
+    processInsta();
+    window.addEventListener('load', processInsta);
+
     // Update counts now and after load
     updateCounts();
-    window.addEventListener('load', updateCounts);
+    window.addEventListener('load', ()=>{ updateCounts(); refreshUsedButtons(); });
+    refreshUsedButtons();
 
     // Page share
     const shareBtn = document.getElementById('sharePage');
@@ -230,4 +280,3 @@
   </script>
 </body>
 </html>
-
