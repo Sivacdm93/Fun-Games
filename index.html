@@ -49,16 +49,14 @@
       <h1>Fun Games – Insta & YouTube</h1>
       <div class="sub">Quick page to watch & share on WhatsApp. (Instagram links must be <strong>public</strong>.)</div>
     </div>
-    <div class="stats">
+  </header>
+  <main>
+    <!-- Stats bar moved here so it's always visible -->
+    <div class="stats" id="statsbar">
       <div class="pill" id="count-total">Total: —</div>
       <div class="pill" id="count-used">Used: —</div>
       <div class="pill" id="count-remaining">Remaining: —</div>
     </div>
-      <div class="pill" id="count-used">Used: 0</div>
-      <div class="pill" id="count-remaining">Remaining: 0</div>
-    </div>
-  </header>
-  <main>
     <div id="grid" class="grid"></div>
     <div id="empty" class="empty" style="display:none;">No links yet. Edit this file and add your URLs in the <code>items</code> list.</div>
     <p class="note">Problems loading? For Instagram, tap <em>Open in Instagram</em>. YouTube Shorts play inline.</p>
@@ -171,6 +169,7 @@
         else { usedStore.add(url); e.currentTarget.classList.add('used'); e.currentTarget.textContent='Used ✓'; }
         saveUsed();
         updateCounts();
+    window.addEventListener('load', updateCounts);
     // If fonts/styles delay layout, ensure counts render once more after load
     window.addEventListener('load', updateCounts);
       });
