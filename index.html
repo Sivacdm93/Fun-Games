@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fun Games – Insta Reels & Posts</title>
+  <title>Team VIBE</title>
   <meta property="og:title" content="Fun Games – Insta Reels & Posts" />
   <meta property="og:description" content="A quick list of Instagram & YouTube game ideas. Tap to watch and share on WhatsApp." />
   <meta property="og:type" content="website" />
@@ -13,12 +13,16 @@
     :root { --bg:#0b1220; --card:#111827; --muted:#94a3b8; --text:#e5e7eb; --accent:#22c55e; --border:#1f2937; }
     *{box-sizing:border-box}
     body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Arial;color:var(--text);background:linear-gradient(180deg,#0b1220,#0b1220 40%,#0d1324 100%)}
-    header{padding:16px;position:sticky;top:0;z-index:5;background:rgba(11,18,32,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+    header{padding:16px;position:sticky;top:0;z-index:5;background:rgba(11,18,32,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
     h1{margin:0;font-size:18px}
-    .sub{color:var(--muted);font-size:13px}
-    .stats{display:flex;gap:8px;align-items:center}
-    .pill{border:1px solid var(--border);border-radius:999px;padding:6px 10px;font-size:12px;background:#0d1728}
-    main{max-width:1000px;margin:12px auto 80px;padding:0 16px}
+    .sub{color:var(--muted);font-size:14px;margin-top:4px;font-style:italic}
+    .stats{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:12px 0}
+    .pill{border:1px solid var(--border);border-radius:14px;padding:10px 14px;font-size:16px;font-weight:700;letter-spacing:.2px;background:#0d1728;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+    .pill.total{background:linear-gradient(135deg,#1d4ed8,#3b82f6)}
+    .pill.used{background:linear-gradient(135deg,#059669,#22c55e)}
+    .pill.remaining{background:linear-gradient(135deg,#d97706,#f59e0b)}
+    .pill.total,.pill.used,.pill.remaining{color:#0b1220;border-color:transparent}
+    main{max-width:1100px;margin:12px auto 100px;padding:0 16px}
     .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
     .card{grid-column:span 12;background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.35)}
     @media(min-width:640px){.card{grid-column:span 6}}
@@ -32,7 +36,8 @@
     button,a.btn{appearance:none;border:1px solid var(--border);background:#0d1728;color:var(--text);padding:6px 8px;border-radius:999px;font-size:12px;text-decoration:none;cursor:pointer}
     .btn-primary{border-color:transparent;background:var(--accent);color:#0b1220;font-weight:700}
     .empty{text-align:center;color:var(--muted);padding:48px 12px;border:1px dashed var(--border);border-radius:16px}
-    .footer-share{position:fixed;right:16px;bottom:16px;display:flex;gap:8px;z-index:10}
+    .footer-share{position:fixed;right:16px;bottom:16px;display:flex;gap:8px;z-index:10} .brandbar{display:flex;gap:12px;align-items:center}
+    .brand{height:56px;width:auto;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.35);background:#0d1728;border:1px solid var(--border)}
     .fab{border-radius:999px;padding:10px 14px;font-weight:700}
     .note{color:var(--muted);font-size:12px;margin:8px 0 0}
     .thumb{position:relative;width:100%;height:100%;background:#0a0f1a center/cover no-repeat}
@@ -45,15 +50,21 @@
 </head>
 <body>
   <header>
-    <div>
-      <h1>Fun Games – Insta & YouTube</h1>
-      <div class="sub">Quick page to watch & share on WhatsApp. (Instagram links must be <strong>public</strong>.)</div>
+    <div class="brandbar">
+      <img id="brand-img" class="brand" src="assets/team-vibe.png" alt="Team VIBE" onerror="this.style.display='none'"/>
+      <div>
+        <h1>Team VIBE</h1>
+        <div class="sub">“Valuing Ideas ,Building engagement”</div>
+      </div>
     </div>
   </header>
   <main>
     <!-- Stats bar moved here so it's always visible -->
     <div class="stats" id="statsbar">
-      <div class="pill" id="count-total">Total: —</div>
+      <div class="pill total" id="count-total">Total: —</div>
+      <div class="pill used" id="count-used">Used: —</div>
+      <div class="pill remaining" id="count-remaining">Remaining: —</div>
+    </div>
       <div class="pill" id="count-used">Used: —</div>
       <div class="pill" id="count-remaining">Remaining: —</div>
     </div>
