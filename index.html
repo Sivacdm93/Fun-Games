@@ -10,7 +10,7 @@
   <meta property="og:title" content="Team VIBE" />
   <meta property="og:description" content="Valuing Ideas, Building engagement" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="Fun.jpg" />
+  <meta property="og:image" content="assets/Fun.jpg" />
   <meta name="theme-color" content="#111827" />
   <style>
     :root { --bg:#0b1220; --card:#111827; --muted:#94a3b8; --text:#e5e7eb; --accent:#22c55e; --border:#1f2937; }
@@ -22,16 +22,14 @@
     .hero{max-width:1100px;margin:0 auto;padding:18px 16px 8px;display:flex;flex-direction:column;align-items:center;gap:12px}
     .brand{width:100%;max-width:1100px;height:auto;border-radius:16px;box-shadow:0 18px 40px rgba(0,0,0,.45);border:1px solid var(--border);object-fit:cover}
     .brand-title{margin:0;font-family:'Poppins',system-ui,Segoe UI,Roboto;font-weight:800;font-size:72px;line-height:1.05;text-align:center;letter-spacing:.3px;background:linear-gradient(90deg,#60a5fa,#a78bfa,#f472b6,#60a5fa);background-size:200% 200%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gradientShift 6s ease-in-out infinite alternate}
-@media(min-width:768px){.brand-title{font-size:96px}}
-@media(min-width:1200px){.brand-title{font-size:110px}}
-@media(min-width:768px){.brand-title{font-size:76px}}
-@media(min-width:1200px){.brand-title{font-size:88px}}
-    @media(min-width:768px){.brand-title{font-size:60px}}
-    .brand-quote{color:var(--muted);font-size:20px;text-align:center;font-style:italic;opacity:1;animation:fadeUp 1.2s ease-out both} @media(min-width:768px){.brand-quote{font-size:24px}} @media(min-width:768px){.brand-quote{font-size:20px}}
+    @media(min-width:768px){.brand-title{font-size:96px}}
+    @media(min-width:1200px){.brand-title{font-size:110px}}
+    .brand-quote{color:var(--muted);font-size:20px;text-align:center;font-style:italic;opacity:1;animation:fadeUp 1.2s ease-out both}
+    @media(min-width:768px){.brand-quote{font-size:24px}}
 
     main{max-width:1100px;margin:12px auto 100px;padding:0 16px}
 
-    /* Admin bar */
+    /* Admin/Stats bar */
     .topbar{display:flex;gap:10px;align-items:center;justify-content:space-between;margin:10px 0}
     .topbar .left{display:flex;gap:14px;align-items:center;flex-wrap:nowrap;overflow:auto}
     .pill{border:1px solid var(--border);border-radius:22px;padding:12px 18px;font-size:18px;font-weight:800;letter-spacing:.2px;background:#0d1728;box-shadow:0 6px 20px rgba(0,0,0,.25);white-space:nowrap}
@@ -46,7 +44,7 @@
     .card{grid-column:span 12;background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.35)}
     @media(min-width:640px){.card{grid-column:span 6}}
     @media(min-width:1024px){.card{grid-column:span 4}}
-    .frame-wrap{position:relative;width:100%;aspect-ratio:16/9;max-height:220px;background:#0a0f1a}
+    .frame-wrap{position:relative;width:100%;aspect-ratio:16/9;max-height:360px;background:#0a0f1a}
     .frame-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
     .meta{padding:12px 12px 8px}
     .title{font-weight:600;font-size:15px;line-height:1.3;margin-bottom:6px}
@@ -68,31 +66,31 @@
 
     /* Safety: hide any stray legacy stats blocks */
     .stats:not(#statsbar){display:none}
-  @keyframes popIn{0%{opacity:0;transform:translateY(10px) scale(.98)}100%{opacity:1;transform:translateY(0) scale(1)}}
-@keyframes gradientShift{0%{background-position:0% 50%}100%{background-position:100% 50%}}
-@keyframes fadeUp{0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:translateY(0)}}
-@media(prefers-reduced-motion:reduce){.brand-title,.brand-quote{animation:none}}
 
-/* --- Extra animations --- */
-@keyframes spinSoft{0%{transform:translateY(0) rotate(0) scale(1)}50%{transform:translateY(-4px) rotate(6deg) scale(1.02)}100%{transform:translateY(0) rotate(360deg) scale(1)}}
-@keyframes slideLR{0%{transform:translateX(-18px)}50%{transform:translateX(18px)}100%{transform:translateX(0)}}
-@keyframes slideRL{0%{transform:translateX(18px)}50%{transform:translateX(-18px)}100%{transform:translateX(0)}}
-@keyframes popPulse{0%{transform:scale(0.96)}35%{transform:scale(1.06)}70%{transform:scale(0.98)}100%{transform:scale(1)}}
-@keyframes wobble{0%{transform:rotate(0)}25%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}75%{transform:rotate(-3deg)}100%{transform:rotate(0)}}
+    /* Base animations used earlier */
+    @keyframes gradientShift{0%{background-position:0% 50%}100%{background-position:100% 50%}}
+    @keyframes fadeUp{0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:translateY(0)}}
+    @media(prefers-reduced-motion:reduce){.brand-title,.brand-quote{animation:none}}
 
-.anim-spin{animation:spinSoft 3.5s ease-in-out forwards}
-.anim-left{animation:slideLR 3s ease-in-out forwards}
-.anim-right{animation:slideRL 3s ease-in-out forwards}
-.anim-pop{animation:popPulse 2.8s ease-in-out forwards}
-.anim-wobble{animation:wobble 3s ease-in-out forwards}
-
+    /* Extra animations for alternating cycles */
+    @keyframes spinSoft{0%{transform:translateY(0) rotate(0) scale(1)}50%{transform:translateY(-4px) rotate(6deg) scale(1.02)}100%{transform:translateY(0) rotate(360deg) scale(1)}}
+    @keyframes slideLR{0%{transform:translateX(-18px)}50%{transform:translateX(18px)}100%{transform:translateX(0)}}
+    @keyframes slideRL{0%{transform:translateX(18px)}50%{transform:translateX(-18px)}100%{transform:translateX(0)}}
+    @keyframes popPulse{0%{transform:scale(0.96)}35%{transform:scale(1.06)}70%{transform:scale(0.98)}100%{transform:scale(1)}}
+    @keyframes wobble{0%{transform:rotate(0)}25%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}75%{transform:rotate(-3deg)}100%{transform:rotate(0)}}
+    .anim-spin{animation:spinSoft 3.5s ease-in-out forwards}
+    .anim-left{animation:slideLR 3s ease-in-out forwards}
+    .anim-right{animation:slideRL 3s ease-in-out forwards}
+    .anim-pop{animation:popPulse 2.8s ease-in-out forwards}
+    .anim-wobble{animation:wobble 3s ease-in-out forwards}
   </style>
+  <!-- Instagram embed runtime -->
   <script async src="https://www.instagram.com/embed.js"></script>
 </head>
 <body>
   <header>
     <div class="hero">
-      <img id="brand-img" class="brand" src="Fun.jpg" alt="Team VIBE" onerror="this.style.display='none'"/>
+      <img id="brand-img" class="brand" src="assets/Fun.jpg" alt="Team VIBE" onerror="this.style.display='none'"/>
       <h1 class="brand-title">Team VIBE</h1>
       <div class="brand-quote">“Valuing Ideas ,Building engagement”</div>
     </div>
@@ -110,7 +108,7 @@
 
     <div id="grid" class="grid"></div>
     <div id="empty" class="empty" style="display:none;">No links yet. Edit this file and add your URLs in the <code>items</code> list.</div>
-    <p class="note">Problems loading? For Instagram, we try to embed automatically. If it fails, tap <em>Open in Instagram</em>. YouTube Shorts play inline.</p>
+    <p class="note">Problems loading? Instagram tries to embed; if it fails, tap <em>Open in Instagram</em>. YouTube Shorts play inline.</p>
   </main>
 
   <div class="footer-share">
@@ -152,6 +150,28 @@
       { title: "Catch the ball", url: "https://youtube.com/shorts/2cWj0XGiwGY?si=6J2kxLH1UWkUTM1y" }
     ];
 
+    // === Shared store config (Google Apps Script) ===
+    const STORE_URL = 'https://script.google.com/macros/s/AKfycbzmETykRPQPSoO8BdW_sFu2AhRF-8hFYgH2_4yBfI0Nr3gmgwPLwmGkdYCKhfZtM3Gh/exec';
+    const STORE_KEY = 'changeme-strong-secret-123'; // MUST match ADMIN_KEY in Apps Script
+    const nocache = () => `&t=${Date.now()}`;
+
+    // === Editor PIN (2580) ===
+    const ADMIN_HASH = 'ed946f65d2c785d90e827c5ffd879ce3b49c68d4c88013074176a7e73bc58bcf'; // sha256('2580')
+    let adminEnabled = false;
+    async function sha256(text){
+      const data = new TextEncoder().encode(text);
+      const buf = await crypto.subtle.digest('SHA-256', data);
+      return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+    }
+    async function toggleAdmin(){
+      if(adminEnabled){ adminEnabled=false; adminBtn.classList.remove('active'); adminBtn.textContent='🔒 Edit'; refreshUsedButtons(); return; }
+      const pin = prompt('Enter Edit PIN');
+      if(!pin) return;
+      const h = await sha256(pin.trim());
+      if(h===ADMIN_HASH){ adminEnabled=true; adminBtn.classList.add('active'); adminBtn.textContent='✅ Editing'; refreshUsedButtons(); }
+      else alert('Wrong PIN');
+    }
+
     // Platform helpers
     function detectPlatform(u){
       try{const x=new URL(u);const h=x.hostname.replace(/^www\./,'');
@@ -161,7 +181,7 @@
       return 'other';
     }
     function youtubeId(u){
-      try{const x=new URL(u);if(x.hostname==='youtu.be'){return x.pathname.slice(1);} 
+      try{const x=new URL(u); if(x.hostname==='youtu.be') return x.pathname.slice(1);
         if(x.pathname.startsWith('/shorts/')) return x.pathname.split('/')[2];
         if(x.searchParams.get('v')) return x.searchParams.get('v');
       }catch{}
@@ -174,45 +194,39 @@
       return 'data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#111827"/><stop offset="1" stop-color="#0b1220"/></linearGradient></defs><rect width="1200" height="675" fill="url(#g)"/><text x="50%" y="90%" dominant-baseline="middle" text-anchor="middle" fill="#94a3b8" font-family="system-ui,Segoe UI,Roboto" font-size="32">Tap to open</text></svg>`);
     }
 
-    // === Admin (edit) mode ===
-    const ADMIN_HASH = 'ed946f65d2c785d90e827c5ffd879ce3b49c68d4c88013074176a7e73bc58bcf'; // SHA-256 of your PIN '2580' (example)
-    let adminEnabled = false;
-    async function sha256(text){
-      const data = new TextEncoder().encode(text);
-      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2,'0')).join('');
+    // === Shared store: used list ===
+    let usedStore = new Set();
+    async function loadUsedFromServer() {
+      const res = await fetch(`${STORE_URL}?action=get${nocache()}`);
+      const data = await res.json();
+      usedStore = new Set(data.used || []);
     }
-    async function toggleAdmin(){
-      if(adminEnabled){ adminEnabled=false; document.getElementById('adminToggle').classList.remove('active'); document.getElementById('adminToggle').textContent='🔒 Edit'; refreshUsedButtons(); return; }
-      const pin = prompt('Enter Edit PIN');
-      if(!pin) return;
-      const h = await sha256(pin.trim());
-      if(h === ADMIN_HASH){ adminEnabled=true; document.getElementById('adminToggle').classList.add('active'); document.getElementById('adminToggle').textContent='✅ Editing'; refreshUsedButtons(); }
-      else { alert('Wrong PIN'); }
+    async function saveUsedToServer() {
+      const payload = encodeURIComponent(JSON.stringify({ used: [...usedStore] }));
+      await fetch(`${STORE_URL}?action=set&key=${encodeURIComponent(STORE_KEY)}&data=${payload}${nocache()}`, { method:'GET' });
     }
-    document.getElementById('adminToggle').addEventListener('click', toggleAdmin);
-
-    // Persist Used state
-    const USED_KEY='used-items-v1';
-    const usedStore=new Set(JSON.parse(localStorage.getItem(USED_KEY)||'[]'));
-    function saveUsed(){localStorage.setItem(USED_KEY,JSON.stringify([...usedStore]));}
 
     function updateCounts(){
-      try{
-        const total = items.length;
-        const used = items.filter(i=>usedStore.has(i.url)).length;
-        const available = total - used;
-        const t=document.getElementById('count-total'); if(t) t.textContent=`Total: ${total}`;
-        const u=document.getElementById('count-used'); if(u) u.textContent=`Used: ${used}`;
-        const a=document.getElementById('count-available'); if(a) a.textContent=`Available: ${available}`;
-      }catch(e){ console.warn('counts update error', e); }
+      const total = items.length;
+      const used = items.filter(i=>usedStore.has(i.url)).length;
+      const available = total - used;
+      const t=document.getElementById('count-total'); if(t) t.textContent=`Total: ${total}`;
+      const u=document.getElementById('count-used'); if(u) u.textContent=`Used: ${used}`;
+      const a=document.getElementById('count-available'); if(a) a.textContent=`Available: ${available}`;
     }
 
     function refreshUsedButtons(){
       document.querySelectorAll('.used-btn').forEach(btn=>{
         if(adminEnabled){ btn.classList.remove('disabled'); btn.title='Mark as Used'; }
         else { btn.classList.add('disabled'); btn.title='Only editors can change Used'; }
+      });
+    }
+    function syncButtonsFromStore(){
+      document.querySelectorAll('.used-btn').forEach(btn=>{
+        const url = btn.getAttribute('data-url');
+        const on = usedStore.has(url);
+        btn.classList.toggle('used', on);
+        btn.textContent = on ? 'Used ✓' : 'Used';
       });
     }
 
@@ -228,7 +242,6 @@
       if(platform==='youtube' && youtubeEmbed(item.url)){
         mediaHTML = `<iframe src="${youtubeEmbed(item.url)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
       } else if(platform==='instagram') {
-        // Try Instagram official embed
         mediaHTML = `
           <div class="frame-wrap">
             <blockquote class="instagram-media" data-instgrm-permalink="${item.url}" data-instgrm-version="14" style="margin:0 auto; max-width:540px; width:100%; background:#FFF; border:0; border-radius:3px; box-shadow:none;"></blockquote>
@@ -258,36 +271,60 @@
       });
 
       const usedBtn = card.querySelector('.used-btn');
-      usedBtn.addEventListener('click',(e)=>{
-        if(!adminEnabled) return; // read-only for non-admins
+      usedBtn.addEventListener('click', async (e)=>{
+        if(!adminEnabled) return;
         const url=e.currentTarget.getAttribute('data-url');
-        if(usedStore.has(url)){ usedStore.delete(url); e.currentTarget.classList.remove('used'); e.currentTarget.textContent='Used'; }
+        const wasOn = usedStore.has(url);
+
+        // optimistic UI
+        if(wasOn){ usedStore.delete(url); e.currentTarget.classList.remove('used'); e.currentTarget.textContent='Used'; }
         else { usedStore.add(url); e.currentTarget.classList.add('used'); e.currentTarget.textContent='Used ✓'; }
-        saveUsed();
         updateCounts();
+
+        try{
+          await saveUsedToServer();
+        }catch(err){
+          // rollback
+          if(wasOn){ usedStore.add(url); e.currentTarget.classList.add('used'); e.currentTarget.textContent='Used ✓'; }
+          else { usedStore.delete(url); e.currentTarget.classList.remove('used'); e.currentTarget.textContent='Used'; }
+          updateCounts();
+          alert('Save failed. Please try again.');
+        }
       });
 
       return card;
     }
 
-    const grid = document.getElementById('grid');
-    if (!items.length) {
-      document.getElementById('empty').style.display = 'block';
-    } else {
-      items.forEach(i => grid.appendChild(makeCard(i)));
-    }
+    // Build page after loading shared state
+    const adminBtn = document.getElementById('adminToggle');
+    adminBtn.addEventListener('click', toggleAdmin);
 
-    // Process Instagram embeds (if any)
-    function processInsta(){
+    (async function init(){
+      try { await loadUsedFromServer(); } catch(e) { console.warn('Load shared state failed', e); }
+
+      const grid = document.getElementById('grid');
+      if (!items.length) {
+        document.getElementById('empty').style.display = 'block';
+      } else {
+        items.forEach(i => grid.appendChild(makeCard(i)));
+      }
+
+      // Instagram embeds
       try{ if(window.instgrm && window.instgrm.Embeds && window.instgrm.Embeds.process){ window.instgrm.Embeds.process(); }}catch{}
-    }
-    processInsta();
-    window.addEventListener('load', processInsta);
 
-    // Update counts now and after load
-    updateCounts();
-    window.addEventListener('load', ()=>{ updateCounts(); refreshUsedButtons(); });
-    refreshUsedButtons();
+      syncButtonsFromStore();
+      updateCounts();
+      refreshUsedButtons();
+
+      // Optional: auto-refresh from server every 30s
+      setInterval(async ()=>{
+        try{
+          await loadUsedFromServer();
+          syncButtonsFromStore();
+          updateCounts();
+        }catch(e){}
+      }, 30000);
+    })();
 
     // Page share
     const shareBtn = document.getElementById('sharePage');
@@ -299,9 +336,8 @@
         try { await navigator.share({ title: document.title, text: 'Team VIBE – Insta & YouTube', url: window.location.href }); } catch {}
       });
     }
-  </script>
-  <script>
-    // Continuous but alternating animations for title & quote
+
+    // Alternating animations for title & quote (not the same at the same time)
     (function(){
       const title = document.querySelector('.brand-title');
       const quote = document.querySelector('.brand-quote');
@@ -311,29 +347,20 @@
       let lastT = '', lastQ = '';
 
       function runCycle(){
-        // pick a title animation different from lastT
         let ta; do { ta = titleAnims[Math.floor(Math.random()*titleAnims.length)]; } while(ta===lastT);
-        // pick a quote animation different from title's and lastQ
         let qa; do { qa = quoteAnims[Math.floor(Math.random()*quoteAnims.length)]; } while(qa===ta || qa===lastQ);
         lastT = ta; lastQ = qa;
-        // reset classes to retrigger
         title.classList.remove('anim-spin','anim-left','anim-right','anim-pop','anim-wobble');
         quote.classList.remove('anim-spin','anim-left','anim-right','anim-pop','anim-wobble');
-        // small desync: title now, quote slightly later so they don't sync
         void title.offsetWidth; // reflow
         title.classList.add(ta);
-        setTimeout(()=>{ quote.classList.add(qa); }, 400); // staggered start
+        setTimeout(()=>{ quote.classList.add(qa); }, 400);
       }
-
-      // initial cycle after load-in animations finish
       setTimeout(runCycle, 1200);
-      // repeat
       setInterval(runCycle, 5000);
 
-      // Respect reduce motion
       const media = window.matchMedia('(prefers-reduced-motion: reduce)');
       if(media.matches){
-        clearInterval(runCycle);
         title.style.animation = 'none';
         quote.style.animation = 'none';
       }
@@ -341,5 +368,3 @@
   </script>
 </body>
 </html>
-
-
