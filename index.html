@@ -13,7 +13,7 @@
     :root { --bg:#0b1220; --card:#111827; --muted:#94a3b8; --text:#e5e7eb; --accent:#22c55e; --border:#1f2937; }
     *{box-sizing:border-box}
     body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Arial;color:var(--text);background:linear-gradient(180deg,#0b1220,#0b1220 40%,#0d1324 100%)}
-    header{padding:16px;position:sticky;top:0;z-index:5;background:rgba(11,18,32,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    header{padding:16px;position:sticky;top:0;z-index:5;background:rgba(11,18,32,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:10px;align-items:flex-start}
     h1{margin:0;font-size:18px}
     .sub{color:var(--muted);font-size:13px}
     .stats{display:flex;gap:8px;align-items:center}
@@ -50,7 +50,10 @@
       <div class="sub">Quick page to watch & share on WhatsApp. (Instagram links must be <strong>public</strong>.)</div>
     </div>
     <div class="stats">
-      <div class="pill" id="count-total">Total: 0</div>
+      <div class="pill" id="count-total">Total: —</div>
+      <div class="pill" id="count-used">Used: —</div>
+      <div class="pill" id="count-remaining">Remaining: —</div>
+    </div>
       <div class="pill" id="count-used">Used: 0</div>
       <div class="pill" id="count-remaining">Remaining: 0</div>
     </div>
@@ -168,6 +171,8 @@
         else { usedStore.add(url); e.currentTarget.classList.add('used'); e.currentTarget.textContent='Used ✓'; }
         saveUsed();
         updateCounts();
+    // If fonts/styles delay layout, ensure counts render once more after load
+    window.addEventListener('load', updateCounts);
       });
       return card;
     }
