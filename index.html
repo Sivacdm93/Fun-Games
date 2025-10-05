@@ -56,6 +56,9 @@
     .thumb::before{content:"";position:absolute;left:50%;top:50%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:rgba(0,0,0,.55);box-shadow:0 4px 12px rgba(0,0,0,.4)}
     .play::after{content:"";position:absolute;left:50%;top:50%;margin:-9px 0 0 -6px;width:0;height:0;border-left:18px solid white;border-top:10px solid transparent;border-bottom:10px solid transparent}
     .used-btn.used{background:#16a34a;color:#fff;font-weight:600}
+      /* --- overrides to ensure big banner + single stats row --- */
+    .hero .brand{width:100% !important;max-width:1100px !important;max-height:none !important;height:auto !important;object-fit:cover}
+    .stats:not(#statsbar){display:none !important}
   </style>
 </head>
 <body>
@@ -191,31 +194,13 @@
         else { usedStore.add(url); e.currentTarget.classList.add('used'); e.currentTarget.textContent='Used ✓'; }
         saveUsed();
         updateCounts();
-    window.addEventListener('load', updateCounts);
-    // If fonts/styles delay layout, ensure counts render once more after load
-    window.addEventListener('load', updateCounts);
-      });
-      return card;
-    }
+    // Remove any duplicate stats bars that may exist from older markup
+    document.querySelectorAll('.stats').forEach(el=>{ if(el.id !== 'statsbar'){ el.remove(); }});
+    window.addEventListener('load', ()=>{
+      updateCounts();
+      document.querySelectorAll('.stats').forEach(el=>{ if(el.id !== 'statsbar'){ el.remove(); }});
+    });
 
-    function updateCounts(){
-      const total = items.length;
-      const used = items.filter(i=>usedStore.has(i.url)).length;
-      const remaining = total - used;
-      document.getElementById('count-total').textContent = `Total: ${total}`;
-      document.getElementById('count-used').textContent = `Used: ${used}`;
-      document.getElementById('count-available').textContent = `Available: ${remaining}`;
-    }
-
-    const grid = document.getElementById('grid');
-    if (!items.length) {
-      document.getElementById('empty').style.display = 'block';
-    } else {
-      items.forEach(i => grid.appendChild(makeCard(i)));
-    }
-    updateCounts();
-
-    // Page share
     const shareBtn = document.getElementById('sharePage');
     const pageWa = `https://wa.me/?text=${encodeURIComponent('Fun Games – Insta & YouTube ' + window.location.href)}`;
     shareBtn.href = pageWa;
@@ -228,3 +213,4 @@
   </script>
 </body>
 </html>
+
