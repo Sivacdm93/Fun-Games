@@ -70,6 +70,20 @@
 @keyframes gradientShift{0%{background-position:0% 50%}100%{background-position:100% 50%}}
 @keyframes fadeUp{0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:translateY(0)}}
 @media(prefers-reduced-motion:reduce){.brand-title,.brand-quote{animation:none}}
+
+/* --- Extra animations --- */
+@keyframes spinSoft{0%{transform:translateY(0) rotate(0) scale(1)}50%{transform:translateY(-4px) rotate(6deg) scale(1.02)}100%{transform:translateY(0) rotate(360deg) scale(1)}}
+@keyframes slideLR{0%{transform:translateX(-18px)}50%{transform:translateX(18px)}100%{transform:translateX(0)}}
+@keyframes slideRL{0%{transform:translateX(18px)}50%{transform:translateX(-18px)}100%{transform:translateX(0)}}
+@keyframes popPulse{0%{transform:scale(0.96)}35%{transform:scale(1.06)}70%{transform:scale(0.98)}100%{transform:scale(1)}}
+@keyframes wobble{0%{transform:rotate(0)}25%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}75%{transform:rotate(-3deg)}100%{transform:rotate(0)}}
+
+.anim-spin{animation:spinSoft 3.5s ease-in-out forwards}
+.anim-left{animation:slideLR 3s ease-in-out forwards}
+.anim-right{animation:slideRL 3s ease-in-out forwards}
+.anim-pop{animation:popPulse 2.8s ease-in-out forwards}
+.anim-wobble{animation:wobble 3s ease-in-out forwards}
+
   </style>
   <script async src="https://www.instagram.com/embed.js"></script>
 </head>
@@ -283,6 +297,45 @@
         try { await navigator.share({ title: document.title, text: 'Team VIBE – Insta & YouTube', url: window.location.href }); } catch {}
       });
     }
+  </script>
+  <script>
+    // Continuous but alternating animations for title & quote
+    (function(){
+      const title = document.querySelector('.brand-title');
+      const quote = document.querySelector('.brand-quote');
+      if(!title || !quote) return;
+      const titleAnims = ['anim-spin','anim-left','anim-right','anim-pop','anim-wobble'];
+      const quoteAnims = ['anim-left','anim-right','anim-pop','anim-wobble']; // avoid full spin for readability
+      let lastT = '', lastQ = '';
+
+      function runCycle(){
+        // pick a title animation different from lastT
+        let ta; do { ta = titleAnims[Math.floor(Math.random()*titleAnims.length)]; } while(ta===lastT);
+        // pick a quote animation different from title's and lastQ
+        let qa; do { qa = quoteAnims[Math.floor(Math.random()*quoteAnims.length)]; } while(qa===ta || qa===lastQ);
+        lastT = ta; lastQ = qa;
+        // reset classes to retrigger
+        title.classList.remove('anim-spin','anim-left','anim-right','anim-pop','anim-wobble');
+        quote.classList.remove('anim-spin','anim-left','anim-right','anim-pop','anim-wobble');
+        // small desync: title now, quote slightly later so they don't sync
+        void title.offsetWidth; // reflow
+        title.classList.add(ta);
+        setTimeout(()=>{ quote.classList.add(qa); }, 400); // staggered start
+      }
+
+      // initial cycle after load-in animations finish
+      setTimeout(runCycle, 1200);
+      // repeat
+      setInterval(runCycle, 5000);
+
+      // Respect reduce motion
+      const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if(media.matches){
+        clearInterval(runCycle);
+        title.style.animation = 'none';
+        quote.style.animation = 'none';
+      }
+    })();
   </script>
 </body>
 </html>
