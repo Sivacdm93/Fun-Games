@@ -1,4 +1,4 @@
-<!DOCTYPE html><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -39,7 +39,7 @@
     .title { font-weight: 600; font-size: 15px; line-height: 1.3; margin-bottom: 6px; }
     .url { font-size: 12px; color: var(--muted); word-break: break-all; }
     .actions { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--border); flex-wrap: wrap; }
-    button, a.btn { appearance: none; border: 1px solid var(--border); background: #0d1728; color: var(--text); padding: 8px 10px; border-radius: 999px; font-size: 13px; text-decoration: none; cursor: pointer; }
+    button, a.btn { appearance: none; border: 1px solid var(--border); background: #0d1728; color: var(--text); padding: 6px 8px; border-radius: 999px; font-size: 12px; text-decoration: none; cursor: pointer; }
     .btn-primary { border-color: transparent; background: var(--accent); color: #0b1220; font-weight: 700; }
     .empty { text-align: center; color: var(--muted); padding: 48px 12px; border: 1px dashed var(--border); border-radius: 16px; }
     .footer-share { position: fixed; right: 16px; bottom: 16px; display: flex; gap: 8px; z-index: 10; }
@@ -48,8 +48,9 @@
     .thumb{position:relative; width:100%; height:100%; background:#0a0f1a center/cover no-repeat}
     .thumb .play{position:absolute; inset:0; display:block}
     .thumb::after{content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(0,0,0,.0),rgba(0,0,0,.35))}
-    .thumb::before{content:""; position:absolute; left:50%; top:50%; width:68px; height:68px; margin:-34px 0 0 -34px; border-radius:50%; background:rgba(0,0,0,.55); box-shadow:0 6px 18px rgba(0,0,0,.4)}
-    .play::after{content:""; position:absolute; left:50%; top:50%; margin:-14px 0 0 -8px; width:0; height:0; border-left:28px solid white; border-top:16px solid transparent; border-bottom:16px solid transparent}
+    .thumb::before{content:""; position:absolute; left:50%; top:50%; width:44px; height:44px; margin:-22px 0 0 -22px; border-radius:50%; background:rgba(0,0,0,.55); box-shadow:0 4px 12px rgba(0,0,0,0.4)}
+    .play::after{content:""; position:absolute; left:50%; top:50%; margin:-9px 0 0 -6px; width:0; height:0; border-left:18px solid white; border-top:10px solid transparent; border-bottom:10px solid transparent}
+    .used-btn.used { background: #16a34a; color: #fff; font-weight: 600; }
   </style>
 </head>
 <body>
@@ -66,19 +67,17 @@
     <a id="sharePage" class="btn btn-primary fab" href="#">Share Page on WhatsApp</a>
   </div>
   <script>
-    // ======== Your Instagram links =========
     const items = [
       { title: "Drop the Pen in bottle using Mobile camera", url: "https://www.instagram.com/reel/DNP0ZztvnvZ/?igsh=M3h2M3Z5eGE2amlw" },
       { title: "Fan the Cup", url: "https://www.instagram.com/reel/DMvARSAz6qY/?igsh=MTh2cXp2M2hndW1rbA%3D%3D" },
       { title: "Strick standing Challenge", url: "https://www.instagram.com/reel/DNQEm21vdpB/?igsh=c2d2bTZyc255aTc=" }
     ];
-    // ======================================
 
     function toEmbedURL(u){return u}
     function getThumb(item){
       if (item.thumb) return item.thumb;
       return 'data:image/svg+xml;utf8,'+
-        encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1600"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#111827"/><stop offset="1" stop-color="#0b1220"/></linearGradient></defs><rect width="1200" height="1600" fill="url(#g)"/><g fill="#fff" opacity="0.9"><circle cx="600" cy="800" r="120" fill="rgba(0,0,0,0.4)"/><polygon points="560,740 560,860 660,800"/></g><text x="50%" y="95%" dominant-baseline="middle" text-anchor="middle" fill="#94a3b8" font-family="system-ui,Segoe UI,Roboto" font-size="36">Tap to open on Instagram</text></svg>`);
+        encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1600"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#111827"/><stop offset="1" stop-color="#0b1220"/></linearGradient></defs><rect width="1200" height="1600" fill="url(#g)"/><g fill="#fff" opacity="0.9"><circle cx="600" cy="800" r="80" fill="rgba(0,0,0,0.4)"/><polygon points="570,760 570,840 640,800"/></g><text x="50%" y="95%" dominant-baseline="middle" text-anchor="middle" fill="#94a3b8" font-family="system-ui,Segoe UI,Roboto" font-size="32">Tap to open on Instagram</text></svg>`);
     }
 
     function makeCard(item) {
@@ -100,6 +99,7 @@
           <a class="btn" target="_blank" rel="noopener" href="${item.url}">Open in Instagram</a>
           <a class="btn" target="_blank" rel="noopener" href="${waLink}">Share on WhatsApp</a>
           <button class="btn" data-copy="${item.url}">Copy link</button>
+          <button class="btn used-btn">Used</button>
         </div>
       `;
       card.querySelector('button[data-copy]').addEventListener('click', async (e) => {
@@ -108,6 +108,10 @@
           e.currentTarget.textContent = 'Copied!';
           setTimeout(() => (e.currentTarget.textContent = 'Copy link'), 1200);
         } catch { alert('Copy failed. Long-press and copy the link.'); }
+      });
+      card.querySelector('.used-btn').addEventListener('click', (e) => {
+        e.currentTarget.classList.toggle('used');
+        e.currentTarget.textContent = e.currentTarget.classList.contains('used') ? 'Used ✓' : 'Used';
       });
       return card;
     }
